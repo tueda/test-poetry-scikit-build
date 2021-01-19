@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "hello"
+version = "0.1.0"
+description = "An example project with Poetry and scikit-build."
+authors = ["Takahiro Ueda <tueda@st.seikei.ac.jp>"]
+license = "MIT"
+include = [
+    { path = "CMakeLists.txt", format = "sdist" },
+    { path = "hello/**/*.cxx", format = "sdist" },
+    { path = "hello/*.so", format = "wheel" },
+]
+exclude = [
+   "hello/**/*.cxx",
+   "hello/*/*.so",
+]
+
+[tool.poetry.build]
+script = "build.py"
+
+[tool.poetry.dependencies]
+python = "^3.6.1"
+
+[tool.poetry.dev-dependencies]
+cmake = "^3.18.4"
+ninja = "^1.10.0"
+scikit-build = "^0.11.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0", "scikit-build", "cmake", "ninja"]
+build-backend = "poetry.core.masonry.api"
