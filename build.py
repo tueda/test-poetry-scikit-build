@@ -1,42 +1,51 @@
+"""Build script."""
+
 import shutil
+from distutils import log as distutils_log
 from pathlib import Path
+from typing import Any, Dict
 
 import skbuild
+import skbuild.constants
+
+__all__ = ("build",)
 
 
-def build(setup_kwargs):
-    pass
-
-
-def setup(**kwargs):
-    skbuild.setup(**kwargs)
+def build(setup_kwargs: Dict[str, Any]) -> None:
+    """Build the package."""
+    skbuild.setup(**setup_kwargs, script_args=["build_ext"])
 
     src_dir = Path(skbuild.constants.CMAKE_INSTALL_DIR()) / "hello"
     dest_dir = Path("hello")
 
-    print(f">>> {src_dir}")
-    print(f">>> {dest_dir}")
+    # Delete C-extentions copied in previous runs, just in case.
+    remove_files(dest_dir, "**/*.so")
 
-    clear(dest_dir, "**/*.so")
-    install(src_dir, dest_dir, "**/*.so")
+    # Copy built C-extentions back to the project.
+    copy_files(src_dir, dest_dir, "**/*.so")
 
 
-def clear(target_dir, pattern):
+def remove_files(target_dir: Path, pattern: str) -> None:
+    """Delete files matched with a glob pattern in a directory tree."""
     for path in target_dir.glob(pattern):
-        print(f"!!! remove {path}")
         if path.is_dir():
             shutil.rmtree(path)
         else:
             path.unlink()
+        distutils_log.info(f"removed {path}")  # type: ignore[call-arg]
 
 
-def install(src_dir, dest_dir, pattern):
+def copy_files(src_dir: Path, dest_dir: Path, pattern: str) -> None:
+    """Copy files matched with a glob pattern in a directory tree to another."""
     for src in src_dir.glob(pattern):
         dest = dest_dir / src.relative_to(src_dir)
-        print(f"!!! src = {src}")
-        print(f"!!! dest = {dest}")
-        dest.parent.mkdir(parents=True, exist_ok=True)
         if src.is_dir():
-            shutil.copytree(src, dest)
+            copy_files(src, dest, "*")
         else:
+            dest.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(src, dest)
+            distutils_log.info(f"copied {src} to {dest}")  # type: ignore[call-arg]
+
+
+if __name__ == "__main__":
+    build({})
