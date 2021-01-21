@@ -36,6 +36,13 @@ repos:
     rev: v0.790
     hooks:
     -   id: mypy
+-   repo: https://github.com/cheshirekow/cmake-format-precommit
+    rev: v0.6.13
+    hooks:
+    -   id: cmake-format
+        additional_dependencies: [pyyaml==5.4]
+    -   id: cmake-lint
+        additional_dependencies: [pyyaml==5.4]
 -   repo: https://github.com/jorisroovers/gitlint
     rev: v0.15.0
     hooks:
