@@ -19,10 +19,10 @@ def build(setup_kwargs: Dict[str, Any]) -> None:
     dest_dir = Path("hello")
 
     # Delete C-extensions copied in previous runs, just in case.
-    remove_files(dest_dir, "**/*.so")
+    remove_files(dest_dir, "**/*.pyd")
 
     # Copy built C-extensions back to the project.
-    copy_files(src_dir, dest_dir, "**/*.so")
+    copy_files(src_dir, dest_dir, "**/*.pyd")
 
 
 def remove_files(target_dir: Path, pattern: str) -> None:

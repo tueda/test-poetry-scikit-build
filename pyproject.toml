@@ -12,11 +12,11 @@ include = [
     { path = "CMakeLists.txt", format = "sdist" },
     { path = "hello/**/*.cxx", format = "sdist" },
     # C extensions must be included in the wheel distribution.
-    { path = "hello/**/*.so", format = "wheel" },
+    { path = "hello/**/*.pyd", format = "wheel" },
 ]
 exclude = [
     "hello/**/*.cxx",
-    "hello/**/*.so",
+    "hello/**/*.pyd",
 ]
 
 [tool.poetry.build]
@@ -31,7 +31,7 @@ cmake = "^3.18.4"
 pre-commit = "^2.9.3"
 pytest = "^6.2.1"
 pytest-cov = "^2.11.0"
-scikit-build = "^0.11.1"
+scikit-build = "^0.12.0"
 taskipy = "^1.6.0"
 
 [build-system]
