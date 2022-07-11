@@ -27,12 +27,12 @@ script = "build.py"
 python = "^3.6.1"
 
 [tool.poetry.dev-dependencies]
-cmake = "^3.18.4"
-pre-commit = "^2.9.3"
-pytest = "^6.2.1"
-pytest-cov = "^2.11.0"
-scikit-build = "^0.11.1"
-taskipy = "^1.6.0"
+cmake = "^3.22.5"
+pre-commit = "^2.17.0"  # 2.18.0 blocked by pytohn 3.6.1
+pytest = "^7.0.1"  # 7.1.0 blocked by pytohn 3.6.1
+pytest-cov = "^3.0.0"
+scikit-build = "^0.15.0"
+taskipy = "^1.10.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "scikit-build", "cmake", "ninja"]
@@ -61,11 +61,14 @@ addopts = [
 ]
 
 [tool.taskipy.tasks]
-install-pre-commit = "pre-commit install && pre-commit install --hook-type commit-msg"
+prepare.cmd = "pre-commit install && pre-commit install --hook-type commit-msg"
+prepare.help = "sets up a development environment"
 
-lint = "pre-commit run --all-files"
+lint.cmd = "pre-commit run --all-files"
+lint.help = "runs linters (+ fix)"
 
-build_ext = "python build.py"
+test.cmd  = "task build_ext && pytest"
+test.help = "runs tests"
 
-test = "pytest"
-pre_test = "task build_ext"
+build_ext.cmd = "python build.py"
+build_ext.help = "builds C extensions"

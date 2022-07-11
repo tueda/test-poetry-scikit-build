@@ -32,8 +32,7 @@ def remove_files(target_dir: Path, pattern: str) -> None:
             shutil.rmtree(path)
         else:
             path.unlink()
-        distutils_log.info(f"removed {path}")  # type: ignore[call-arg]
-        # will be fixed in mypy 0.800, https://github.com/python/typeshed/pull/4573
+        distutils_log.info(f"removed {path}")
 
 
 def copy_files(src_dir: Path, dest_dir: Path, pattern: str) -> None:
@@ -46,8 +45,7 @@ def copy_files(src_dir: Path, dest_dir: Path, pattern: str) -> None:
         else:
             dest.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(src, dest)
-            distutils_log.info(f"copied {src} to {dest}")  # type: ignore[call-arg]
-            # will be fixed in mypy 0.800, https://github.com/python/typeshed/pull/4573
+            distutils_log.info(f"copied {src} to {dest}")
 
 
 if __name__ == "__main__":
