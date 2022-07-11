@@ -38,6 +38,9 @@ taskipy = "^1.10.2"
 requires = ["poetry-core>=1.0.0", "scikit-build", "cmake", "ninja"]
 build-backend = "poetry.core.masonry.api"
 
+[tool.coverage.html]
+directory = "_htmlcov"
+
 [tool.coverage.report]
 exclude_lines = [
     "@overload",
