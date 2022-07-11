@@ -12,10 +12,12 @@ include = [
     { path = "CMakeLists.txt", format = "sdist" },
     { path = "hello/**/*.cxx", format = "sdist" },
     # C extensions must be included in the wheel distribution.
+    { path = "hello/**/*.pyd", format = "wheel" },
     { path = "hello/**/*.so", format = "wheel" },
 ]
 exclude = [
     "hello/**/*.cxx",
+    "hello/**/*.pyd",
     "hello/**/*.so",
 ]
 
