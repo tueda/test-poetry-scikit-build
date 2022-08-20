@@ -41,7 +41,7 @@ jobs:
         with:
           output-dir: dist
         env:
-          CIBW_SKIP: "pp*-win*"
+          CIBW_SKIP: "pp*-win*"  # skip PyPy wheels on Windows
 
       - name: Upload wheel as artifact
         uses: actions/upload-artifact@v3
@@ -61,6 +61,11 @@ jobs:
         with:
           name: dist
           path: dist
+
+      - name: Print the distribution contents
+        run: |
+          for f in $(find dist -name '*.tar.gz' | sort); do echo $f; tar -tvf $f; done
+          for f in $(find dist -name '*.whl' | sort); do unzip -l $f; done
 
       - name: Install Poetry
         run: pipx install poetry
