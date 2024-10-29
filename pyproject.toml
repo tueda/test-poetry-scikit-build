@@ -3,7 +3,7 @@ name = "hello"
 version = "0.1.0"
 description = "An example project with Poetry and scikit-build."
 license = "MIT"
-authors = ["Takahiro Ueda <tueda@st.seikei.ac.jp>"]
+authors = ["Takahiro Ueda <t.ueda.od@juntendo.ac.jp>"]
 readme = "README.md"
 repository = "https://github.com/tueda/test-poetry-scikit-build"
 
@@ -15,11 +15,7 @@ include = [
     { path = "hello/**/*.pyd", format = "wheel" },
     { path = "hello/**/*.so", format = "wheel" },
 ]
-exclude = [
-    "hello/**/*.cxx",
-    "hello/**/*.pyd",
-    "hello/**/*.so",
-]
+exclude = ["hello/**/*.cxx", "hello/**/*.pyd", "hello/**/*.so"]
 
 [tool.poetry.build]
 generate-setup-file = false
@@ -30,11 +26,17 @@ python = "^3.6.1"
 
 [tool.poetry.dev-dependencies]
 cmake = "^3.22.5"
-pre-commit = "^2.17.0"  # 2.18.0 blocked by pytohn 3.6.1
-pytest = "^7.0.1"  # 7.1.0 blocked by pytohn 3.6.1
+pre-commit = "^2.17.0"   # 2.18.0 blocked by pytohn 3.6.1
+pytest = "^7.0.1"        # 7.1.0 blocked by pytohn 3.6.1
 pytest-cov = "^3.0.0"
 scikit-build = "^0.15.0"
 taskipy = "^1.10.2"
+
+tomli = [
+    { version = "~1.2.3", python = "~3.6.1" },
+    { version = "~2.0.1", python = "~3.7" },
+    { version = "^2.0.2", python = ">=3.8" },
+]
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "scikit-build", "cmake", "ninja"]
@@ -84,7 +86,7 @@ prepare.help = "sets up a development environment"
 lint.cmd = "pre-commit run --all-files"
 lint.help = "runs linters (+ fix)"
 
-test.cmd  = "task build_ext && pytest"
+test.cmd = "task build_ext && pytest"
 test.help = "runs tests"
 
 build_ext.cmd = "python build.py"
